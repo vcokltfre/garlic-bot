@@ -27,7 +27,7 @@ class Garlic(Cog):
 
         await itr.send(f"{GARLIC} You have {count} garlic {GARLIC}")
 
-    @slash_command(name="leaderboard", description="Get the garlic leaderboard.")
+    @slash_command(name="leaderboard", aliases=["lb"], description="Get the garlic leaderboard.")
     async def leaderboard(self, itr: CommandInteraction) -> None:
         await itr.send(embed=await self.bot.manager.get_leaderboard())
 
