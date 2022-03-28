@@ -22,10 +22,13 @@ class Garlic(Cog):
             await message.add_reaction(GARLIC)
 
     @slash_command(name="garlic", description="Get your garlic count.")
-    async def garlic(self, itr: CommandInteraction) -> None:
-        count = await self.bot.manager.get_user_garlic(itr.author)
+    async def garlic(self, itr: CommandInteraction, user: User) -> None:
+        if user is None:
+            count = await self.bot.manager.get_user_garlic(itr.author)
+        else:
+            count = await self.bot.manager.get_user_garlic(user)
 
-        await itr.send(f"{GARLIC} You have {count} garlic {GARLIC}")
+        await itr.reply(f"{GARLIC} {'You' if user is None else str(user)} {'have' if user is None else 'has'} {count} garlic {GARLIC}")
 
     @slash_command(name="leaderboard", description="Get the garlic leaderboard.")
     async def leaderboard(self, itr: CommandInteraction) -> None:
@@ -82,10 +85,13 @@ class Garlic(Cog):
         await itr.send(f"{GARLIC} You claimed your weekly garlic! {GARLIC}")
 
     @command(name="garlic", description="Get your garlic count.")
-    async def garlic_command(self, ctx: Context[Bot]) -> None:
-        count = await self.bot.manager.get_user_garlic(ctx.author)
+    async def garlic_command(self, ctx: Context[Bot], user: User = None) -> None:
+        if user is None:
+            count = await self.bot.manager.get_user_garlic(ctx.author)
+        else:
+            count = await self.bot.manager.get_user_garlic(user)
 
-        await ctx.reply(f"{GARLIC} You have {count} garlic {GARLIC}")
+        await ctx.reply(f"{GARLIC} {'You' if user is None else str(user)} {'have' if user is None else 'has'} {count} garlic {GARLIC}")
 
     @command(name="leaderboard", description="Get the garlic leaderboard.")
     async def leaderboard_command(self, ctx: Context[Bot]) -> None:
