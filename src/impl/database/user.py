@@ -19,3 +19,4 @@ class GarlicUser(Model):
     count: int = BigInteger(default=0)
     last_daily: datetime = DateTime(nullable=True)
     last_weekly: datetime = DateTime(nullable=True)
+    last_monthly: datetime = DateTime(nullable=True)

@@ -81,6 +81,16 @@ class Garlic(Cog):
 
         await itr.send(f"{GARLIC} You claimed your weekly garlic! {GARLIC}")
 
+    @slash_command(name="monthly", description="Claim your monthly garlic.")
+    async def monthly(self, itr: CommandInteraction) -> None:
+        res = await self.bot.manager.claim_monthly(itr.author)
+
+        if res:
+            await itr.send("You already claimed your monthly garlic.")
+            return
+
+        await itr.send(f"{GARLIC} You claimed your monthly garlic! {GARLIC}")
+
     @command(name="garlic", description="Get your garlic count.")
     async def garlic_command(self, ctx: Context[Bot]) -> None:
         count = await self.bot.manager.get_user_garlic(ctx.author)
@@ -133,6 +143,16 @@ class Garlic(Cog):
             return
 
         await ctx.reply(f"{GARLIC} You claimed your weekly garlic! {GARLIC}")
+
+    @command(name="monthly", description="Claim your monthly garlic.")
+    async def monthly_command(self, ctx: Context[Bot]) -> None:
+        res = await self.bot.manager.claim_monthly(ctx.author)
+
+        if res:
+            await ctx.reply("You already claimed your monthly garlic.")
+            return
+
+        await ctx.reply(f"{GARLIC} You claimed your monthly garlic! {GARLIC}")
 
 
 def setup(bot: Bot) -> None:

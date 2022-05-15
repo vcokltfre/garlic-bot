@@ -10,6 +10,7 @@ from ..database import GarlicUser
 
 DAILY = 32
 WEEKLY = DAILY * 8
+MONTHLY = DAILY * 32
 
 
 class User(Protocol):
@@ -120,3 +121,13 @@ class GarlicManager:
             return
 
         return (stats.last_weekly + timedelta(days=7)) - datetime.utcnow()
+
+    async def claim_monthly(self, user: User) -> timedelta | None:
+        stats = await self._resolve_user(user)
+
+        if stats.last_monthly is None or datetime.utcnow() - stats.last_monthly > timedelta(days=7):
+            stats = await stats.update(last_monthly=datetime.utcnow(), count=stats.count + MONTHLY)
+            self._cache[user.id] = stats
+            return
+
+        return (stats.last_monthly + timedelta(days=7)) - datetime.utcnow()
