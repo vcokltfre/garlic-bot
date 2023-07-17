@@ -125,7 +125,7 @@ class GarlicManager:
     async def claim_monthly(self, user: User) -> timedelta | None:
         stats = await self._resolve_user(user)
 
-        if stats.last_monthly is None or datetime.utcnow() - stats.last_monthly > timedelta(days=7):
+        if stats.last_monthly is None or datetime.utcnow() - stats.last_monthly > timedelta(days=30):
             stats = await stats.update(last_monthly=datetime.utcnow(), count=stats.count + MONTHLY)
             self._cache[user.id] = stats
             return
