@@ -47,7 +47,12 @@ class GarlicManager:
 
     async def add_user_garlic(self, user: User, amount: int) -> GarlicUser:
         stats = await self._resolve_user(user)
-        stats = await stats.update(count=stats.count + amount)
+
+        extra = {}
+        if stats.name != user.name:
+            extra["name"] = user.name
+
+        stats = await stats.update(count=stats.count + amount, **extra)
 
         self._cache[user.id] = stats
 
